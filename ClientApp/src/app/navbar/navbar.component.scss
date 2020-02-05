@@ -1,0 +1,13 @@
+.navbar{
+  min-height:50px;
+}
+.user-nav-btn{
+  height:50px;
+  border-bottom:1px solid #000;
+  cursor:pointer;
+  padding:0px 5px;
+  &:hover{
+    background-color:#363636;
+    color:#fff;
+  }
+}

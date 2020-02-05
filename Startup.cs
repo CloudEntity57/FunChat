@@ -25,6 +25,15 @@ namespace iCloset
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var allowedHosts = Configuration.GetValue<string>("AllowedOrigins").Split(",");
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin",
+                    options => options.WithOrigins(allowedHosts)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials());
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 
@@ -37,6 +46,7 @@ namespace iCloset
             var connectionString = Configuration["connectionStrings:clothsyConnectionString"];
 
             services.AddScoped<IUserRepository<User>, UserRepository>();
+            services.AddScoped<IConversationRepository<Conversation>, ConversationRepository>();
 
             services.AddDbContext<ClothsyDBContext>(options => options.UseSqlServer(connectionString));
 
@@ -58,6 +68,7 @@ namespace iCloset
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseCors("AllowOrigin");
 
             app.UseMvc(routes =>
             {

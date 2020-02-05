@@ -1,9 +1,14 @@
-<div class='container-fluid'>
-  <div class='row'>
-    <div class='col-sm-3'>
-      <app-nav-menu></app-nav-menu>
+<div class="header">
+  <div class="container">
+    <h1>SQL Chat DB</h1>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <app-navbar [user]="user" [users]="users"></app-navbar>
     </div>
-    <div class='col-sm-9 body-content'>
+    <div class="col-md-8">
       <router-outlet></router-outlet>
     </div>
   </div>

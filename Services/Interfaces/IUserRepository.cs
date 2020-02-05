@@ -11,7 +11,7 @@ namespace iCloset.Services.Interfaces
     {
         // IEnumerable<User> GetAll();
         IQueryable<TResponse> GetUsers();
-
-        // IEnumerable<User> GetById(int id);
+        IQueryable<TResponse> GetUserById(Guid id);
+        TResponse CreateUser(TResponse user);
     }
 }

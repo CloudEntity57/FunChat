@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace iCloset.Models
 {
-    public class User : IEntity<Guid>
+    public class UserDto : IEntity<Guid>
     {
-        public User(){
+        public UserDto(){
 
         }
         public Guid ID { get; set; }
@@ -13,6 +13,5 @@ namespace iCloset.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public ICollection<UserConversation> UserConversation { get; set; }
-        
     }
 }
