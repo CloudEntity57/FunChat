@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import 'rxjs/add/operator/filter';
 
 @Component({
   selector: 'app-chatpanel',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatpanelComponent implements OnInit {
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
+  chatID: string;
 
   ngOnInit() {
+    this.route.queryParams
+    .filter(params => params.id)
+    .subscribe(params =>{
+      this.chatID = params.id;
+    });
   }
 
 }

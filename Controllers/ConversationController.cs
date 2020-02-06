@@ -1,7 +1,10 @@
 using System;
+using System.Linq;
+using iCloset.DataAccess;
 using iCloset.Models;
 using iCloset.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace iCloset.Controllers
 {
@@ -9,8 +12,10 @@ namespace iCloset.Controllers
     public class ConversationController : Controller
     {
         private readonly IConversationRepository<Conversation> _repository;
-        public ConversationController(IConversationRepository<Conversation> repository){
+        private readonly ClothsyDBContext _context;
+        public ConversationController(IConversationRepository<Conversation> repository, ClothsyDBContext context){
             _repository = repository;
+            _context = context;
         }
         [HttpGet()]
         public IActionResult GetAll(){
@@ -42,6 +47,12 @@ namespace iCloset.Controllers
 #endif
             }
 
+        }
+        [HttpGet("PM")]
+        public IActionResult GetPMs(){
+            IQueryable<Conversation> PMs = _context.Conversation.Where(p => p.Topic == "PM");
+            var result = PMs;
+            return Ok(result);
         }
     }
 }

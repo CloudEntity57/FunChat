@@ -12,6 +12,7 @@ export class AppComponent {
   users: any;
   user: IUser;
   userID = 'ae744423-71b7-4c43-ba1a-23c96fc2c6cd';
+  pms: any;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl : string){
     http.get(baseUrl + '/User').subscribe(resp => {
@@ -21,6 +22,10 @@ export class AppComponent {
     http.get(`${baseUrl}/User/${this.userID}`).subscribe(resp => {
       console.log('USER - ',resp);
       this.user = resp[0];
+    });
+    http.get(`${baseUrl}/Conversation/PM`).subscribe(resp =>{
+      console.log('pms', resp);
+      this.pms = resp;
     });
   }
 }

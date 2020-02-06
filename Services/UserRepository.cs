@@ -12,23 +12,30 @@ namespace iCloset.Services
     IUserRepository<User>
     {
         private readonly ClothsyDBContext _context;
-        public IQueryable<User> Merged(){
+        public IQueryable<UserDto> Merged(){
             return _context.AppUser
-            .Include(p=>p.UserConversation);
+            .Include(p=>p.UserConversation).Select(p => new UserDto
+            {
+                ID = p.ID,
+                FirstName = p.FirstName,
+                LastName = p.LastName,
+                Email = p.Email,
+                UserConversation = p.UserConversation
+            });
 
         }
 
         private IQueryable<User> _entities;
+        private IQueryable<UserDto> _entitiesDto;
 
         public UserRepository(ClothsyDBContext dbContext) : base(dbContext)
         {
             _context = dbContext;
-            _entities = Merged();
+            _entities = dbContext.AppUser;
+            _entitiesDto = Merged();
         }
 
         public IQueryable<User> GetUsers(){
-            // return GetAll();
-           
             return _entities;
         }
 

@@ -1,4 +1,3 @@
 <div class="navbar">
-  <div class="user-nav-btn" *ngFor="let user of users">{{user?.firstName}}</div>
-
+  <div (click) = "joinPMChat(usr)" class="user-nav-btn" *ngFor="let usr of users" id="usr?.id">{{usr?.firstName}}</div>
 </div>

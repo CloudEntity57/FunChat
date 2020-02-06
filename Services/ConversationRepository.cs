@@ -21,6 +21,7 @@ namespace iCloset.Services
         public IQueryable<Conversation> GetConversationById(Guid id){
             return GetById(id);
         }
+
         public Conversation CreateConversation(Conversation conversation){
             return Create(conversation);
         }
