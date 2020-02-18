@@ -1,7 +1,7 @@
 export interface IUser{
-  id: string
-  firstName: string
-  lastName: string
-  email?: string
-  userConversation:any
+  id: string;
+  firstName: string;
+  lastName: string;
+  email?: string;
+  userConversation:any;
 }

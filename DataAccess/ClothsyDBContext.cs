@@ -25,7 +25,8 @@ namespace iCloset.DataAccess
         {
             modelBuilder.Entity<User>(entity => 
             {
-                entity.Property(e => e.ID).HasColumnName("ID");
+                entity.Property(e => e.ID).HasColumnName("ID")
+                .HasDefaultValueSql("NEWID()");
                 entity.HasKey(e => e.ID);
                 entity.Property(e => e.FirstName).HasColumnName("FirstName");
                 entity.Property(e => e.LastName).HasColumnName("LastName");
@@ -48,25 +49,29 @@ namespace iCloset.DataAccess
             });
             modelBuilder.Entity<Conversation>(entity => 
             {
-                entity.Property(e => e.ID).HasColumnName("ID");
+                entity.Property(e => e.ID).HasColumnName("ID")
+                .HasDefaultValueSql("NEWID()");
                 entity.HasKey("ID");
-                entity.Property(e => e.StartDate).HasColumnName("startDate");
+                entity.Property(e => e.StartDate).HasColumnName("startDate")
+                .HasDefaultValueSql("GETDATE()");
                 entity.Property(e => e.Topic).HasColumnName("topic");
                 
             });
             modelBuilder.Entity<Message>(entity =>
             {
-                entity.Property(e => e.ID).HasColumnName("ID");
+                entity.Property(e => e.ID).HasColumnName("ID")
+                .HasDefaultValueSql("NEWID()");
                 entity.HasKey("ID");
                 entity.Property(e => e.Body).HasColumnName("Body");
-                entity.Property(e => e.MessageTimeStamp).HasColumnName("MessageTimeStamp");
+                entity.Property(e => e.MessageTimeStamp)
+                    .HasColumnName("MessageTimeStamp")
+                    .HasDefaultValueSql("GETDATE()");
                 entity.Property(e => e.AuthorID).HasColumnName("AuthorID");
                 entity.Property(e => e.ConversationID).HasColumnName("ConversationID");
                 entity.HasOne(d => d.Conversation)
                     .WithMany(p => p.Message)
                     .HasForeignKey(d=>d.ConversationID)
                     .HasConstraintName("FK_MESSAGE_Convers619B8048");
-                
             });
         }
     }

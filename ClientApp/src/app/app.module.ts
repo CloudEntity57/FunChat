@@ -10,6 +10,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { appRoutes } from './routes';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ChatpanelComponent } from './chatpanel/chatpanel.component';
+import { ConversationService } from './shared/conversation.service';
 
 
 @NgModule({
@@ -27,7 +28,9 @@ import { ChatpanelComponent } from './chatpanel/chatpanel.component';
     UserModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [
+    ConversationService
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

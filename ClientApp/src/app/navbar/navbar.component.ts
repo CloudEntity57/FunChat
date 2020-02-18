@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IUser, IConversation } from '../shared';
 import { Router } from '@angular/router';
 
@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit {
   @Input() user: IUser;
   @Input() users: IUser[];
   @Input() pms: IConversation[];
+  @Output() joinConversation = new EventEmitter<IConversation>();
 
   joinPMChat(targetUser: IUser): void {
     let pmChatID: string;
@@ -21,6 +22,7 @@ export class NavbarComponent implements OnInit {
       targetUser.userConversation.forEach(conv => {
         if (conv.convID === pm.id) {
           pmChatID = conv.convID;
+          this.joinConversation.emit(conv);
         }
       });
     });

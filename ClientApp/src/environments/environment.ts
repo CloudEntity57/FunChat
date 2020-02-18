@@ -5,5 +5,8 @@
 
 export const environment = {
   production: false,
-  url: 'https://localhost:5001/api'
+  url: 'https://localhost:5001/api',
+  userId: '',
+  user: { },
+  users: []
 };

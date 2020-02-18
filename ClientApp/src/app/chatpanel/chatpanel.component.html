@@ -1,1 +1,18 @@
-<div class="panel panel-default chatpanel">Chatting in PM# {{chatID}}</div>
+<div class="chat_window">
+  <div class="panel panel-default chatpanel">
+    Chatting in PM# {{convID}} with
+  </div>
+  <div *ngFor="let msg of conversation?.message">
+    <div class="msg-header">
+    <div>{{getUser(msg)?.firstName}}</div>
+    <div>{{msg.messageTimeStamp}}</div>
+    </div>
+    <div class="panel panel-default chatpanel">
+      {{msg.body}}
+    </div>
+  </div>
+  <form #inputPanel="ngForm" (ngSubmit)="postMessage(inputPanel)">
+    <textarea ngModel name="new_message" id="" rows="7" class="panel panel-default chatpanel"></textarea>
+    <input class="btn btn-default " type="submit" value="Send">
+  </form>
+</div>

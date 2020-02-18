@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace iCloset.Models
 {
-    public class Conversation : IEntity<Guid>
+    public class ConversationDto : IEntity<Guid>
     {
-        public Conversation(){
+        public ConversationDto(){
 
         }
         public Guid ID { get; set; }

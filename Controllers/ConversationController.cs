@@ -32,7 +32,17 @@ namespace iCloset.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(Guid id){
             try{
-                var conversation = _repository.GetConversationById(id);
+                var conversation = _repository.GetConversationById(id)
+                .Include(p=>p.Message).Select(p => new ConversationDto
+                {
+                    ID = p.ID,
+                    StartDate = p.StartDate,
+                    Topic = p.Topic,
+                    Message = p.Message,
+                    UserConversation = p.UserConversation
+                }).ToList();
+                var messages = conversation[0].Message.OrderBy(msg => msg.MessageTimeStamp);
+                conversation[0].Message = messages.ToList();
                 if( conversation != null){
                     return Ok(conversation);
                 }
