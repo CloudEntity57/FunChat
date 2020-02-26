@@ -17,18 +17,18 @@ namespace iCloset.Controllers
             _repository = repository;
             _context = context;
         }
-        [HttpGet()]
-        public IActionResult GetAll(){
-             try{
-                var response = _repository.GetAll();
-                if(response == null){
-                    return NotFound();
-                }
-                return Ok(response);
-            }catch(Exception e){
-                return BadRequest(e.Message);
-            }
-        }
+        // [HttpGet()]
+        // public IActionResult GetAll(){
+        //      try{
+        //         var response = _repository.GetAll();
+        //         if(response == null){
+        //             return NotFound();
+        //         }
+        //         return Ok(response);
+        //     }catch(Exception e){
+        //         return BadRequest(e.Message);
+        //     }
+        // }
         [HttpGet("{id}")]
         public IActionResult Get(Guid id){
             try{
@@ -63,6 +63,21 @@ namespace iCloset.Controllers
             IQueryable<Conversation> PMs = _context.Conversation.Where(p => p.Topic == "PM");
             var result = PMs;
             return Ok(result);
+        }
+        [HttpGet("General")]
+        public IActionResult GetGeneral(){
+            IQueryable<Conversation> GroupChats = _context.Conversation.Where(p => p.Topic != "PM");
+            var result = GroupChats;
+            return Ok(result);
+        }        
+        [HttpPost()]
+        public IActionResult CreateConversation([FromBody]Conversation conversation){
+            try{
+                var result = _repository.Create(conversation);
+                return Ok(result);
+            }catch(Exception e){
+                return BadRequest(e.Message);
+            }
         }
     }
 }

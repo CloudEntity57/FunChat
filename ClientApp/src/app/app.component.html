@@ -1,12 +1,19 @@
 <div class="header">
   <div class="container">
-    <h1>SQL Chat DB</h1>
+    <div class="flex-header">
+      <div class="vertical-align">
+        <div class="title">Chat DB</div>
+      </div>
+      <div class="vertical-align">
+        <div class="button button--grey">Log In</div>
+      </div>
+    </div>
   </div>
 </div>
 <div class="container">
   <div class="row">
     <div class="col-md-4">
-      <app-navbar [user]="user" [users]="users" [pms]="pms"></app-navbar>
+      <app-navbar [user]="user" [users]="users" [pms]="pms" [generalChats]="generalChats" (joinConversation)="joinConversation()"></app-navbar>
     </div>
     <div class="col-md-8">
       <router-outlet></router-outlet>

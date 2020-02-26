@@ -1,0 +1,10 @@
+<div class="msg-header">
+  <div>{{name}}</div>
+  <div>{{showDate(msg?.messageTimeStamp)}}</div>
+</div>
+<div class="panel panel-default chatpanel" [class.user-panel]="msg.authorID==user?.id" [class.other-panel]="msg.authorID != user?.id" (mouseenter)="showOptions()" (mouseleave)="hideOptions()">
+  {{msg.body}}
+  <span class="options" *ngIf="show_options">
+    <span *ngIf="isMyId(msg.authorID)" (click)="deleteMe()" class="delete">X</span>
+  </span>
+</div>

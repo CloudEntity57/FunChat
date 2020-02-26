@@ -1,10 +1,20 @@
-
+@import "./shared/sharedstyles.scss";
 
 .header{
-  height: 100px;
+  height: 10vh;
   border-bottom: 1px solid #000;
+  .container{
+    height:inherit;
+    .flex-header{
+      height:inherit;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
 }
-
+.title{
+  font-size: 3em;
+}
 
 
 @media (max-width: 767px) {

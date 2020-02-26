@@ -1,13 +1,45 @@
+@import "../shared/sharedstyles.scss";
 .navbar{
-  min-height:50px;
+  height:75vh;
+  @media(max-width:995px){
+    height:auto;
+  }
 }
 .user-nav-btn{
   height:50px;
   border-bottom:1px solid #000;
   cursor:pointer;
   padding:0px 5px;
+  transition: padding-left, .15s;
   &:hover{
-    background-color:#363636;
-    color:#fff;
+    padding-left:10px;
+  }
+  display: flex;
+  justify-content: space-between;
+}
+.plus{
+  height:100%;
+}
+.viewing{
+  background-color:$lighterblue;
+  color:#fff;
+}
+.nav-header{
+  font-size:1.5em;
+  margin:15px 0px;
+  display: flex;
+  justify-content: space-between;
+}
+.conversations{
+  margin-bottom:65px;
+  @media(max-width:995px){
+    margin-bottom:10px;
   }
 }
+.general-conversations{
+  max-height: 40vh;
+  overflow-y: scroll;
+  margin-bottom:0px;
+}
+
+

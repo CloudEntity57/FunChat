@@ -1,4 +1,8 @@
-.chatpanel{
-  padding:5px;
-  width:100%;
+@import "../shared/sharedstyles.scss";
+
+
+.chat_window{
+  position: relative;
+  height:75vh;
+  overflow-y:scroll;
 }

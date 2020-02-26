@@ -31,6 +31,16 @@ namespace iCloset.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteMessage(Guid id)
+        {
+            try{
+                _repository.Delete(id);
+                return Ok(true);
+            }catch(Exception e) {
+                return BadRequest(e.Message);
+            }
+        }
         [Route("conversation")]
         [HttpGet("{id}")]
         public IActionResult GetMessagesByConversation(Guid id)
@@ -60,5 +70,6 @@ namespace iCloset.Controllers
             }
             
         }
+
     }
 }

@@ -11,7 +11,6 @@ namespace iCloset.Models
         public Guid ID { get; set; }
         public DateTime StartDate { get; set; }
         public string Topic { get; set; }
-    
         public ICollection<Message> Message { get; set; }
         public ICollection<UserConversation> UserConversation { get; set; }
     }

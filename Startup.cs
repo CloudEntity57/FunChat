@@ -45,6 +45,8 @@ namespace iCloset {
             services.AddScoped<IUserRepository<User>, UserRepository>();
             services.AddScoped<IConversationRepository<Conversation>, ConversationRepository>();
             services.AddScoped<IMessageRepository<Message>, MessageRepository>();
+            services.AddScoped<IUserConversationRepository<UserConversation>, UserConversationRepository>();
+
 
             services.AddDbContext<ClothsyDBContext>(options => options.UseSqlServer(connectionString));
 

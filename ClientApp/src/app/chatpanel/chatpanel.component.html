@@ -1,18 +1,16 @@
 <div class="chat_window">
-  <div class="panel panel-default chatpanel">
-    Chatting in PM# {{convID}} with
-  </div>
-  <div *ngFor="let msg of conversation?.message">
-    <div class="msg-header">
-    <div>{{getUser(msg)?.firstName}}</div>
-    <div>{{msg.messageTimeStamp}}</div>
-    </div>
+  <div class="chat_scroll">
     <div class="panel panel-default chatpanel">
-      {{msg.body}}
+      Chatting in PM# {{convID}} with
+    </div>
+    <div *ngFor="let msg of conversation?.message">
+      <app-message [user]="user" [name]="getUser(msg).firstName" [msg]="msg" (deleted)="init()"></app-message>
+    </div>
+    <div>
+      <form #inputPanel="ngForm" (ngSubmit)="postMessage(inputPanel)">
+        <textarea ngModel name="new_message" id="" rows="7" class="panel panel-default chatpanel"></textarea>
+        <input class="btn btn-default " type="submit" value="Send" [disabled]="inputPanel.value.new_message == ''">
+      </form>
     </div>
   </div>
-  <form #inputPanel="ngForm" (ngSubmit)="postMessage(inputPanel)">
-    <textarea ngModel name="new_message" id="" rows="7" class="panel panel-default chatpanel"></textarea>
-    <input class="btn btn-default " type="submit" value="Send">
-  </form>
 </div>

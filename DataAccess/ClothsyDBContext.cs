@@ -34,7 +34,8 @@ namespace iCloset.DataAccess
             });
             modelBuilder.Entity<UserConversation>(entity => 
             {
-                entity.Property(e => e.ID).HasColumnName("ID");
+                entity.Property(e => e.ID).HasColumnName("ID")
+                .HasDefaultValueSql("NEWID()");
                 entity.HasKey(e => e.ID);
                 entity.Property(e => e.ConvID).HasColumnName("ConvID");
                 entity.Property(e => e.UserID).HasColumnName("UserID");
@@ -53,7 +54,7 @@ namespace iCloset.DataAccess
                 .HasDefaultValueSql("NEWID()");
                 entity.HasKey("ID");
                 entity.Property(e => e.StartDate).HasColumnName("startDate")
-                .HasDefaultValueSql("GETDATE()");
+                .HasDefaultValueSql("SYSDATETIMEOFFSET()");
                 entity.Property(e => e.Topic).HasColumnName("topic");
                 
             });

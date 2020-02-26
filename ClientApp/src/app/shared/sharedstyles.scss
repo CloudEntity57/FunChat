@@ -1,0 +1,54 @@
+.chatpanel{
+  padding:5px;
+  width:100%;
+  min-height:30px;
+}
+$orange: rgb(255,98,0);
+$darker_orange: rgb(245, 137, 70);
+$grey: #363636;
+$lighterblue: #9292c8;
+$lightergreen: #8fa78f;
+
+
+.button{
+  padding:5px;
+  height:30px;
+  border-radius: 5px;
+  display:inline-block;
+  cursor: pointer;
+  &--orange{
+    color:$orange;
+    //border:1px solid $orange;
+    &:hover{
+      //background-color:$darker_orange;
+      border: 1px solid $darker_orange;
+      //color:#fff;
+    }
+  }
+  &--grey{
+    color:$grey;
+    //border:1px solid $grey;
+    &:hover{
+      //background-color:$grey;
+      border: 1px solid $grey;
+      //color:#fff;
+    }
+  }
+}
+
+.vertical-align{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+//bootstrap modifications
+
+.btn{
+  &--no-border{
+    border:none;
+    &:hover{
+      border:auto;
+    }
+  }
+}
