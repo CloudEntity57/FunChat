@@ -2,6 +2,8 @@ using iCloset.DataAccess;
 using iCloset.Models;
 using iCloset.Services;
 using iCloset.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 // using Microsoft.Extensions.Hosting;
@@ -23,6 +25,26 @@ namespace iCloset {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services){
+
+            string domain = $"https://{Configuration["Auth0:Domain"]}/";
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = domain;
+                options.Audience = Configuration["Auth0:ApiIdentifier"];
+            });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("read:messages", policy => policy.Requirements.Add(new HasScopeRequirement("read:messages", domain)));
+                options.AddPolicy("write:messages", policy => policy.Requirements.Add(new HasScopeRequirement("write:messages", domain)));
+
+            });
+
+            // register the scope authorization handler
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
             var allowedHosts = Configuration.GetValue<string>("AllowedOrigins").Split(",");
             services.AddCors(c => {
                 c.AddPolicy("AllowOrigin",
@@ -65,16 +87,14 @@ namespace iCloset {
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseCors("AllowOrigin");
-            // app.UseRouting();
+            app.UseAuthentication();
 
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    // template: "{controller}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
-            // app.UseEndpoints(endpoints => {
-            //     endpoints.MapControllers();
-            // });
 
             app.UseSpa(spa => {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,

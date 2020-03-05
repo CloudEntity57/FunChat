@@ -3,6 +3,7 @@ using System.Linq;
 using iCloset.DataAccess;
 using iCloset.Models;
 using iCloset.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,8 @@ namespace iCloset.Controllers
         }
 
         [HttpPost()]
+        [Authorize]
+
         public IActionResult CreateUserConversation([FromBody]UserConversation conversation){
             try{
                 var result = _repository.Create(conversation);

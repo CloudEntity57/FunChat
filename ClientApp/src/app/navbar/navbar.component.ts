@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { concatMap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { NgModel } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +13,7 @@ import { NgModel } from '@angular/forms';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private router: Router, private convService: ConversationService) {
+  constructor(private router: Router, private convService: ConversationService, public auth: AuthService) {
     this.convService.convID.subscribe(id => {
       console.log('VIEWING - ',id)
       this.viewing = id;

@@ -34,6 +34,19 @@ export class ConversationService {
       })
     );
   }
+
+  getPMs(): Observable<any> {
+    return this.http.get(`${this.url}/Conversation/PM`).pipe(
+      map(resp => resp)
+    );
+  }
+
+  getGeneralConversations(): Observable<any>{
+    return this.http.get(`${this.url}/Conversation/General`).pipe(
+      map(chats => chats)
+    );
+  }
+
   createConversation(topic: string): Observable<IConversation> {
     const headers = new HttpHeaders()
     .set('Content-type', 'application/json; charset=utf-8');
@@ -69,6 +82,8 @@ export class ConversationService {
       map(resp => true)
     );
   }
+
+
   // getMessages(): Observable<IMessage[]>{
   //   return this.http.get<IMessage[]>(`${this.url}/message`)
   // }

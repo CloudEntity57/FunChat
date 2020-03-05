@@ -4,6 +4,7 @@ using System.Linq;
 using iCloset.DataAccess;
 using iCloset.Models;
 using iCloset.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,8 @@ namespace iCloset.Controllers
             _repository = repository;
         }
         [HttpGet()]
+        [Authorize]
+
         public IActionResult GetMessages()
         {
             var result = _repository.GetMessages();
@@ -32,6 +35,7 @@ namespace iCloset.Controllers
             }
         }
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult DeleteMessage(Guid id)
         {
             try{
@@ -43,6 +47,7 @@ namespace iCloset.Controllers
         }
         [Route("conversation")]
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetMessagesByConversation(Guid id)
         {
             var result = _repository.GetMessagesByConversation(id);
@@ -57,6 +62,7 @@ namespace iCloset.Controllers
             }
         }
         [HttpPost]
+        [Authorize]
         public IActionResult PostMessage([FromBody]Message message)
         {
             

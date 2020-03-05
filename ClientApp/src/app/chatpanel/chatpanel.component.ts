@@ -1,10 +1,8 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConversationService, IConversation, IMessage, IUser } from '../shared/index';
-import 'rxjs/add/operator/filter';
 import {environment} from '../../environments/environment';
 import { NgForm, NgModel } from '@angular/forms';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-chatpanel',
@@ -52,7 +50,6 @@ export class ChatpanelComponent implements OnInit, OnChanges {
     const chatpanel = document.querySelector('.chat_window');
     chatpanel.scrollTop = chatpanel.scrollHeight;
     this.route.queryParams
-    .filter(params => params.id)
     .subscribe(params => {
       if ( params.id ) {
         this.convID = params.id;

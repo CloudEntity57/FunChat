@@ -11,6 +11,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ChatpanelComponent } from './chatpanel/chatpanel.component';
 import { ConversationService } from './shared/conversation.service';
 import { MessageComponent } from './message/message.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { InterceptorService } from './interceptor.service';
+import { AuthService } from './auth.service';
+import { ProfileComponent } from './profile/profile.component';
+import { ConversationComponent } from './conversation/conversation.component';
 
 
 @NgModule({
@@ -19,7 +24,9 @@ import { MessageComponent } from './message/message.component';
     HomeComponent,
     NavbarComponent,
     ChatpanelComponent,
-    MessageComponent
+    MessageComponent,
+    ProfileComponent,
+    ConversationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -29,7 +36,13 @@ import { MessageComponent } from './message/message.component';
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
-    ConversationService
+    AuthService,
+    ConversationService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [ AppComponent ]
 })

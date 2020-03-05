@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {environment} from '../../environments/environment';
 import { IUser, IMessage, ConversationService } from '../shared/index';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-message',

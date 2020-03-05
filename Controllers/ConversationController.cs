@@ -3,6 +3,7 @@ using System.Linq;
 using iCloset.DataAccess;
 using iCloset.Models;
 using iCloset.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,6 +31,8 @@ namespace iCloset.Controllers
         //     }
         // }
         [HttpGet("{id}")]
+        
+        [Authorize]
         public IActionResult Get(Guid id){
             try{
                 var conversation = _repository.GetConversationById(id)
@@ -59,18 +62,26 @@ namespace iCloset.Controllers
 
         }
         [HttpGet("PM")]
+        
+        [Authorize]
+
         public IActionResult GetPMs(){
             IQueryable<Conversation> PMs = _context.Conversation.Where(p => p.Topic == "PM");
             var result = PMs;
             return Ok(result);
         }
         [HttpGet("General")]
+        
+
         public IActionResult GetGeneral(){
             IQueryable<Conversation> GroupChats = _context.Conversation.Where(p => p.Topic != "PM");
             var result = GroupChats;
             return Ok(result);
         }        
         [HttpPost()]
+        
+        [Authorize]
+
         public IActionResult CreateConversation([FromBody]Conversation conversation){
             try{
                 var result = _repository.Create(conversation);

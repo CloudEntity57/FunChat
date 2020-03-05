@@ -1,0 +1,25 @@
+@import "../shared/sharedstyles.scss";
+.navbar{
+  height:75vh;
+  @media(max-width:995px){
+    height:auto;
+  }
+}
+.user-nav-btn{
+  height:50px;
+  border-bottom:1px solid #000;
+  cursor:pointer;
+  padding:0px 5px;
+  transition: padding-left, .15s;
+  &:hover{
+    padding-left:10px;
+  }
+  display: flex;
+  justify-content: space-between;
+}
+.conversations{
+  margin-bottom:65px;
+  @media(max-width:995px){
+    margin-bottom:10px;
+  }
+}

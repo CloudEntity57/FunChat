@@ -3,6 +3,7 @@ using System.Linq;
 using iCloset.DataAccess;
 using iCloset.Models;
 using iCloset.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,6 @@ namespace iCloset.Controllers
 
         private readonly IUserRepository<User> _repository;
         private readonly ClothsyDBContext _context;
-
         public IQueryable<UserDto> Merged(){
             return _context.AppUser
             .Include(p=>p.UserConversation)
@@ -33,6 +33,7 @@ namespace iCloset.Controllers
             _context = context;
         }
         [HttpGet()]
+        [Authorize]
         public IActionResult GetAllUsers(){
              try{
                 // var response = _repository.GetUsers();
@@ -46,6 +47,7 @@ namespace iCloset.Controllers
             }
         }
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult Get(Guid id){
             try{
                 var user = _repository.GetUserById(id)

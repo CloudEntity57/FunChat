@@ -1,1 +1,5 @@
-<h1>Home</h1>
+<div class="navbar">
+  <div class="conversations">
+    <div class="user-nav-btn" *ngFor="let number of numbers" [ngStyle]="{'background-color':getStyle2(number)}"></div>
+  </div>
+</div>
