@@ -8,5 +8,6 @@ export const environment = {
   url: 'https://localhost:5001/api',
   userId: '',
   user: { },
-  users: []
+  users: [],
+  token: ''
 };

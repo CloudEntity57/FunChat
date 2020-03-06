@@ -1,5 +1,12 @@
-<div class="navbar">
-  <div class="conversations">
-    <div class="user-nav-btn" *ngFor="let number of numbers" [ngStyle]="{'background-color':getStyle2(number)}"></div>
+<div class="row">
+  <div class="col-md-4">
+    <div class="navbar">
+      <div class="conversations">
+        <div class="user-nav-btn" *ngFor="let number of numbers" [ngStyle]="{'background-color':getStyle3(number)}"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="jumbotron">Welcome to the wonderful world of ChatDB, are you ready to chat? Of course you are. Your life will never be the same.</div>
   </div>
 </div>

@@ -33,7 +33,7 @@ import { ConversationComponent } from './conversation/conversation.component';
     HttpClientModule,
     FormsModule,
     UserModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   providers: [
     AuthService,

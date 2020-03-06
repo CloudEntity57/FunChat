@@ -2,28 +2,17 @@
   <div class="container">
     <div class="flex-header">
       <div class="vertical-align">
-        <div class="title">Chat DB</div>
+        <div class="title">ChatDB</div>
       </div>
       <div class="vertical-align">
-        <div *ngIf="!auth.loggenIn" (click)="logIn()" class="button button--grey">Sign In</div>
-        <div *ngIf="auth.loggenIn" (click)="logOut()" class="button button--grey">Sign Out</div>
+        <div *ngIf="!auth.loggedIn" (click)="logIn()" class="button button--grey">Sign In</div>
+        <div *ngIf="auth.loggedIn" (click)="logOut()" class="button button--grey">Sign Out</div>
         <a routerLink="profile" *ngIf="auth.loggedIn">Profile</a>
       </div>
     </div>
   </div>
 </div>
 <div class="container">
-  <div class="row">
-    <div class="col-md-4">
-      <app-navbar *ngIf="auth.loggedIn" [user]="user" [users]="users" [pms]="pms" [generalChats]="generalChats" (joinConversation)="joinConversation()"></app-navbar>
-      <app-home *ngIf="!auth.loggedIn"></app-home>
-    </div>
-    <div *ngIf="auth.loggedIn" class="col-md-8">
-      <router-outlet></router-outlet>
-    </div>
-    <div *ngIf="!auth.loggedIn" class="col-md-8">
-      Welcome to the wonderful world of ChatDB, are you ready to chat? Of course you are. Your life will never be the same.
-    </div>
-  </div>
   <app-conversation *ngIf="auth.loggedIn"></app-conversation>
+  <app-home *ngIf="!auth.loggedIn"></app-home>
 </div>

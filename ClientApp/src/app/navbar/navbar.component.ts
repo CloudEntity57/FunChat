@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { IUser, IConversation, IUserConversation, ConversationService } from '../shared';
 import { Router } from '@angular/router';
 import { concatMap, map } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { AuthService } from '../auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements AfterViewInit {
 
   constructor(private router: Router, private convService: ConversationService, public auth: AuthService) {
     this.convService.convID.subscribe(id => {
@@ -110,7 +110,7 @@ export class NavbarComponent implements OnInit {
     return output;
   }
 
-  isPMChatJoined(person: IUser): boolean{
+  isPMChatJoined(person: IUser): boolean {
     let output: boolean;
     // match person's conversations w topic 'PM' with one of your user conversations
     const their_pms: IConversation[] = [];
@@ -128,7 +128,8 @@ export class NavbarComponent implements OnInit {
   }
 
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    console.log('navbar general chats: ', this.generalChats)
   }
 
 }

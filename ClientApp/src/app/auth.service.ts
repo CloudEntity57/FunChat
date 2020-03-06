@@ -14,7 +14,7 @@ export class AuthService {
     createAuth0Client({
       domain: 'jfoster57.auth0.com',
       client_id: '7BU6cUIvQiX56IhwktXJfuV3UzreKAKW',
-      redirect_uri: `${window.location.origin}`,
+      redirect_uri: 'http://localhost:4200',
       audience: 'https://localhost:5001/api'
     })
   ) as Observable<Auth0Client>).pipe(
@@ -30,6 +30,7 @@ export class AuthService {
     tap(res => this.loggedIn = res)
   );
   handleRedirectCallback$ = this.auth0Client$.pipe(
+    tap((client:Auth0Client)=>console.log('client: ',client)),
     concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
   );
   // Create subject and public observable of user profile data
@@ -56,15 +57,17 @@ export class AuthService {
   }
 
   private localAuthSetup() {
+    console.log('localauthsetup')
     // This should only be called on app initialization
     // Set up local authentication streams
     const checkAuth$ = this.isAuthenticated$.pipe(
       concatMap((loggedIn: boolean) => {
         if (loggedIn) {
+          console.log('you are logged in')
           // If authenticated, get user and set in app
           // NOTE: you could pass options here if needed
           return this.getUser$();
-        }
+        }else{ console.log('you are not logged in')}
         // If not authenticated, return stream that emits 'false'
         return of(loggedIn);
       })
@@ -86,9 +89,13 @@ export class AuthService {
   }
 
   private handleAuthCallback() {
+
     // Call when app reloads after user logs in with Auth0
     const params = window.location.search;
+    console.log('params: ',params)
     if (params.includes('code=') && params.includes('state=')) {
+      console.log('logged in already')
+
       let targetRoute: string; // Path to redirect to after login processsed
       const authComplete$ = this.handleRedirectCallback$.pipe(
         // Have client, now call method to handle auth callback redirect
@@ -107,6 +114,7 @@ export class AuthService {
       // Subscribe to authentication completion observable
       // Response will be an array of user and login status
       authComplete$.subscribe(([user, loggedIn]) => {
+        console.log(' authcomplete user: ',user)
         // Redirect to target route after callback processing
         this.router.navigate([targetRoute]);
       });

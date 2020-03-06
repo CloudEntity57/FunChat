@@ -11,7 +11,6 @@ import { ActivatedRoute } from '@angular/router';
 export class HomeComponent implements OnInit{
   constructor(){
     this.numbers = Array(15).fill(1).map((x,i)=>i);
-    console.log('numbers - ',this.numbers)
   }
   numbers: any = [];
   getStyle(number){
@@ -19,6 +18,19 @@ export class HomeComponent implements OnInit{
   }
   getStyle2(number){
     return`#${312065 + (number * 0o20324)}`;
+  }
+  getStyle3(number){
+    return`#${400000 + (number * 0o46000)}`;
+  }
+  getStyle4(number){
+      if (number<6)
+        {return`#${363636 + (number * 100700)}`;}
+
+      if (number >=6 && number <11)
+        // { return`#${363636 + (number * 0o01010)}`;}
+        { return`#${690000 + (number * 0o01111)}`;}
+      if (number >=11 && number <16)
+        { return`#${790000 + (number * 0o00101)}`;}
 
   }
   ngOnInit(){

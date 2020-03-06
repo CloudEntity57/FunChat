@@ -24,22 +24,9 @@ export class InterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     console.log('REQ: ',req, ' vs ',this.baseUrl)
-    const baseRegEx = new RegExp(this.baseUrl);
-    // if(!baseRegEx.test(req.url)){
-    //   return this.auth.getTokenSilently$().pipe(
-    //     mergeMap(token => {
-    //       const tokenReq = req.clone({
-    //         setHeaders: { Authorization: `Bearer ${token}` }
-    //       });
-    //       return next.handle(tokenReq);
-    //     }),
-    //     catchError(err => throwError(err))
-    //   );
-    // }else{
-    //   return next.handle(req);
-    // }
     return this.auth.getTokenSilently$().pipe(
       mergeMap(token => {
+        console.log('token: ',token)
         const tokenReq = req.clone({
           setHeaders: { Authorization: `Bearer ${token}` }
         });

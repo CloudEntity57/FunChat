@@ -70,7 +70,8 @@ namespace iCloset.Controllers
             var result = PMs;
             return Ok(result);
         }
-        [HttpGet("General")]
+        [Route("General")]
+        [HttpGet()]
         
 
         public IActionResult GetGeneral(){
