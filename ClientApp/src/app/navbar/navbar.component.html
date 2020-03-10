@@ -1,8 +1,8 @@
-<div *ngIf="user" class="navbar">
+<div class="navbar">
   <div class="vertical-align">
     <div class="nav-header">People</div>
   </div>
-  <div class="conversations pm-conversations">
+  <div *ngIf="users.length" class="conversations pm-conversations">
     <div *ngFor="let usr of users">
       <div (click) = "switchPMChat(usr)" class="user-nav-btn" [class.viewing]="usr.firstName===viewing" *ngIf="usr?.id != user?.id" id="usr?.id">
         <div class="nav-btn vertical-align">
@@ -20,11 +20,11 @@
         +
       </div>
     </div>
-  <div class="conversations general-conversations">
+  <div *ngIf="generalChats.length" class="conversations general-conversations">
     <div *ngFor="let chat of generalChats">
-      <div (click) = "switchGeneralChat(chat)" class="user-nav-btn" [class.viewing]="chat.id===viewing" id="chat?.id">
+      <div (click) = "switchGeneralChat(chat)" class="user-nav-btn" [class.viewing]="chat.id===viewing" [id]="chat.id">
         <div class="nav-btn vertical-align">
-          {{chat?.topic}}
+          {{chat.topic}}
         </div>
         <div class="nav-btn vertical-align">
           <span class="btn btn-default" *ngIf="!isChatJoined(chat)">Join</span>

@@ -8,11 +8,11 @@
         <div *ngIf="!auth.loggedIn" (click)="logIn()" class="button button--grey">Sign In</div>
         <div *ngIf="auth.loggedIn" (click)="logOut()" class="button button--grey">Sign Out</div>
         <a routerLink="profile" *ngIf="auth.loggedIn">Profile</a>
+        <div (click)="isAuth()">Auth</div>
       </div>
     </div>
   </div>
 </div>
 <div class="container">
-  <app-conversation *ngIf="auth.loggedIn"></app-conversation>
-  <app-home *ngIf="!auth.loggedIn"></app-home>
+  <router-outlet></router-outlet>
 </div>

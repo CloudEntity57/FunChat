@@ -2,7 +2,7 @@
   <div class="col-md-4">
     <div class="navbar">
       <div class="conversations">
-        <div class="user-nav-btn" *ngFor="let number of numbers" [ngStyle]="{'background-color':getStyle3(number)}"></div>
+        <div class="user-nav-btn" *ngFor="let number of numbers" [ngStyle]="{'background-color':getStyle3(number)}">{{getText(number)}}</div>
       </div>
     </div>
   </div>

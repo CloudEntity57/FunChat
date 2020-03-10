@@ -6,6 +6,12 @@
   }
 }
 .user-nav-btn{
+  display:flex;
+  color: #fff;
+  font-size:1.2em;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
   height:50px;
   border-bottom:1px solid #363636;
   cursor:pointer;
@@ -14,8 +20,6 @@
   &:hover{
     padding-left:10px;
   }
-  display: flex;
-  justify-content: space-between;
 }
 .conversations{
   margin-bottom:65px;

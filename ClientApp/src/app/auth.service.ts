@@ -9,13 +9,14 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
+
   // Create an observable of Auth0 instance of client
   auth0Client$ = (from(
     createAuth0Client({
       domain: 'jfoster57.auth0.com',
       client_id: '7BU6cUIvQiX56IhwktXJfuV3UzreKAKW',
-      redirect_uri: 'http://localhost:4200',
-      audience: 'https://localhost:5001/api'
+      redirect_uri: 'http://localhost:4200/chat',
+      audience:'https://localhost:5001'
     })
   ) as Observable<Auth0Client>).pipe(
     shareReplay(1), // Every subscription receives the same shared value
@@ -27,10 +28,25 @@ export class AuthService {
   // from: Convert that resulting promise into an observable
   isAuthenticated$ = this.auth0Client$.pipe(
     concatMap((client: Auth0Client) => from(client.isAuthenticated())),
-    tap(res => this.loggedIn = res)
+    tap(res => {
+      console.log('isAuthenticated$: ',res)
+      this.loggedIn = res
+    })
   );
+
+  public purgeCookies(){
+    document.cookie.split('; ').forEach(cookie => {
+      console.log('cookie: ',cookie)
+      let key = cookie.split('=')[0];
+      console.log('cookie: ',key)
+      if (key.includes('a0.spajs.txs.')) {
+        // removeCookie(key);  // it needs to be implemented by yourself
+        document.cookie = cookie + '= ; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+      }
+    });
+  }
+
   handleRedirectCallback$ = this.auth0Client$.pipe(
-    tap((client:Auth0Client)=>console.log('client: ',client)),
     concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
   );
   // Create subject and public observable of user profile data
@@ -60,6 +76,7 @@ export class AuthService {
     console.log('localauthsetup')
     // This should only be called on app initialization
     // Set up local authentication streams
+    // this.purgeCookies();
     const checkAuth$ = this.isAuthenticated$.pipe(
       concatMap((loggedIn: boolean) => {
         if (loggedIn) {
@@ -67,20 +84,35 @@ export class AuthService {
           // If authenticated, get user and set in app
           // NOTE: you could pass options here if needed
           return this.getUser$();
+
         }else{ console.log('you are not logged in')}
-        // If not authenticated, return stream that emits 'false'
+
         return of(loggedIn);
+
+        // If not authenticated, return stream that emits 'false'
+        // this.auth0Client$.subscribe((client)=>{
+        //   client.handleRedirectCallback();
+        // });
       })
+
     );
     checkAuth$.subscribe();
   }
 
-  login(redirectPath: string = '/') {
+  printIsAuthenticated(){
+    this.isAuthenticated$.subscribe((loggedIn)=>{
+      console.log(loggedIn)
+    })
+  }
+
+  login(redirectPath: string = '/chat') {
     // A desired redirect path can be passed to login method
     // (e.g., from a route guard)
     // Ensure Auth0 client instance exists
     this.auth0Client$.subscribe((client: Auth0Client) => {
       // Call method to log in
+
+
       client.loginWithRedirect({
         redirect_uri: `${window.location.origin}`,
         appState: { target: redirectPath }
@@ -88,11 +120,12 @@ export class AuthService {
     });
   }
 
-  private handleAuthCallback() {
 
+
+  private handleAuthCallback() {
     // Call when app reloads after user logs in with Auth0
     const params = window.location.search;
-    console.log('params: ',params)
+    // this.purgeCookies();
     if (params.includes('code=') && params.includes('state=')) {
       console.log('logged in already')
 

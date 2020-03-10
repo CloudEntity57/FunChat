@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { IUser, IConversation, IUserConversation, ConversationService } from '../shared';
 import { Router } from '@angular/router';
 import { concatMap, map } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { AuthService } from '../auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements AfterViewInit {
+export class NavbarComponent implements OnChanges {
 
   constructor(private router: Router, private convService: ConversationService, public auth: AuthService) {
     this.convService.convID.subscribe(id => {
@@ -100,6 +100,7 @@ export class NavbarComponent implements AfterViewInit {
   }
 
   isChatJoined(chat: IConversation): boolean {
+    console.log('gen chat: ',chat)
     let output = false;
     const result = this.user.userConversation.forEach(user_conv => {
       if( chat.id === user_conv.convID) {
@@ -128,7 +129,7 @@ export class NavbarComponent implements AfterViewInit {
   }
 
 
-  ngAfterViewInit() {
+  ngOnChanges() {
     console.log('navbar general chats: ', this.generalChats)
   }
 

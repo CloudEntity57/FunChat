@@ -33,6 +33,18 @@ export class HomeComponent implements OnInit{
         { return`#${790000 + (number * 0o00101)}`;}
 
   }
+  getText(number:number):string {
+    switch(number){
+      case 1:
+        return 'Welcome to the wonderful world of ChatDB.';
+      case 3:
+        return 'Are you ready to chat?';
+      case 5:
+        return 'Of course you are.';
+      case 7:
+        return 'Your life will never be the same.';
+    }
+  }
   ngOnInit(){
 
   }

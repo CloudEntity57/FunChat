@@ -10,7 +10,13 @@ export class ConversationComponent implements OnInit {
 
   constructor(private convService: ConversationService) { }
   pms: any;
-  generalChats: any;
+  generalChats: any = [];
+  user: any = { id: ''};
+  users: any = [];
+
+  joinConversation(){
+
+  }
 
   ngOnInit(): void {
     this.convService.getPMs().subscribe(resp => {
@@ -21,6 +27,8 @@ export class ConversationComponent implements OnInit {
       console.log('pms', resp);
       this.generalChats = resp;
     });
+    // this.pms = this.convService.getPMs();
+    // this.generalChats = this.convService.getGeneralConversations();
   }
 
 }
