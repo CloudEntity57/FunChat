@@ -31,6 +31,7 @@ namespace iCloset.DataAccess
                 entity.Property(e => e.FirstName).HasColumnName("FirstName");
                 entity.Property(e => e.LastName).HasColumnName("LastName");
                 entity.Property(e => e.Email).HasColumnName("Email");
+                entity.Property(e => e.UserID).HasColumnName("UserID");
             });
             modelBuilder.Entity<UserConversation>(entity => 
             {

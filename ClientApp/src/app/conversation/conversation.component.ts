@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ConversationService } from '../shared/conversation.service';
+import { UserService } from '../shared/user.service';
+import { AuthService } from '../auth.service';
+import { concatMap, mergeMap, map } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-conversation',
@@ -8,7 +12,7 @@ import { ConversationService } from '../shared/conversation.service';
 })
 export class ConversationComponent implements OnInit {
 
-  constructor(private convService: ConversationService) { }
+  constructor(private auth: AuthService, private userService: UserService, private convService: ConversationService) { }
   pms: any;
   generalChats: any = [];
   user: any = { id: ''};
@@ -27,8 +31,28 @@ export class ConversationComponent implements OnInit {
       console.log('pms', resp);
       this.generalChats = resp;
     });
-    // this.pms = this.convService.getPMs();
-    // this.generalChats = this.convService.getGeneralConversations();
+
+    this.auth.getUser$().pipe(
+      mergeMap(user => this.userService.getUsers().pipe(map(res => [user,res])))
+    ).subscribe(comps => {
+      const profile = comps[0];
+      const userArr = comps[1];
+      this.userService.saveUsers(userArr);
+      let match: boolean = false;
+      userArr.forEach(usrDB => {
+        if(usrDB.userID === profile.sub){
+          this.userService.userChange(usrDB);
+          match = true;
+        }
+      });
+      if(!match){
+        console.log('need to make user')
+        this.userService.createUser(profile).subscribe(res => {
+          this.user = res;
+          this.users = userArr.push(res);
+        })
+      }
+    })
   }
 
 }

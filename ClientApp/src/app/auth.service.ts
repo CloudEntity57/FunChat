@@ -16,7 +16,7 @@ export class AuthService {
       domain: 'jfoster57.auth0.com',
       client_id: '7BU6cUIvQiX56IhwktXJfuV3UzreKAKW',
       redirect_uri: 'http://localhost:4200/chat',
-      audience:'https://localhost:5001'
+      audience:'https://localhost:5001/api'
     })
   ) as Observable<Auth0Client>).pipe(
     shareReplay(1), // Every subscription receives the same shared value
@@ -34,17 +34,17 @@ export class AuthService {
     })
   );
 
-  public purgeCookies(){
-    document.cookie.split('; ').forEach(cookie => {
-      console.log('cookie: ',cookie)
-      let key = cookie.split('=')[0];
-      console.log('cookie: ',key)
-      if (key.includes('a0.spajs.txs.')) {
-        // removeCookie(key);  // it needs to be implemented by yourself
-        document.cookie = cookie + '= ; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-      }
-    });
-  }
+  // public purgeCookies(){
+  //   document.cookie.split('; ').forEach(cookie => {
+  //     console.log('cookie: ',cookie)
+  //     let key = cookie.split('=')[0];
+  //     console.log('cookie: ',key)
+  //     if (key.includes('a0.spajs.txs.')) {
+  //       // removeCookie(key);  // it needs to be implemented by yourself
+  //       document.cookie = cookie + '= ; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+  //     }
+  //   });
+  // }
 
   handleRedirectCallback$ = this.auth0Client$.pipe(
     concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
@@ -111,10 +111,9 @@ export class AuthService {
     // Ensure Auth0 client instance exists
     this.auth0Client$.subscribe((client: Auth0Client) => {
       // Call method to log in
-
-
       client.loginWithRedirect({
         redirect_uri: `${window.location.origin}`,
+
         appState: { target: redirectPath }
       });
     });
@@ -133,6 +132,7 @@ export class AuthService {
       const authComplete$ = this.handleRedirectCallback$.pipe(
         // Have client, now call method to handle auth callback redirect
         tap(cbRes => {
+          console.log('cbRes: ',cbRes)
           // Get and set target redirect route from callback results
           targetRoute = cbRes.appState && cbRes.appState.target ? cbRes.appState.target : '/';
         }),
@@ -147,7 +147,7 @@ export class AuthService {
       // Subscribe to authentication completion observable
       // Response will be an array of user and login status
       authComplete$.subscribe(([user, loggedIn]) => {
-        console.log(' authcomplete user: ',user)
+        console.log(' authcomplete user: ',user, 'targetroute: ',targetRoute)
         // Redirect to target route after callback processing
         this.router.navigate([targetRoute]);
       });
@@ -160,7 +160,7 @@ export class AuthService {
       // Call method to log out
       client.logout({
         client_id: "7BU6cUIvQiX56IhwktXJfuV3UzreKAKW",
-        returnTo: `${window.location.origin}`
+        returnTo: `${window.location.origin}/home`
       });
     });
   }

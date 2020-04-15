@@ -7,7 +7,7 @@ $orange: rgb(255,98,0);
 $darker_orange: rgb(245, 137, 70);
 $grey: #363636;
 $lighterblue: #3f94dc;
-$lightergreen: #00e900;
+$lightergreen: #4cab64;
 
 
 .button{
@@ -35,11 +35,19 @@ $lightergreen: #00e900;
     }
   }
 }
-
+.general-header{
+  font-size:1.5em;
+  margin:15px 0px;
+  display: flex;
+  justify-content: space-between;
+}
 .vertical-align{
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  &--fill-height{
+    height:100%;
+  }
 }
 
 //bootstrap modifications

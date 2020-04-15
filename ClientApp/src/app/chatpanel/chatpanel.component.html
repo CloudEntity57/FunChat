@@ -1,7 +1,7 @@
 <div class="chat_window">
   <div class="chat_scroll">
-    <div class="panel panel-default chatpanel">
-      Chatting in PM# {{convID}} with
+    <div class="vertical-align">
+      <div class="general-header">Yaci</div>
     </div>
     <div *ngFor="let msg of conversation?.message">
       <app-message [user]="user" [name]="getUser(msg).firstName" [msg]="msg" (deleted)="init()"></app-message>

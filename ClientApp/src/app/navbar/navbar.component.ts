@@ -5,6 +5,7 @@ import { concatMap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { NgModel } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { UserService } from '../shared/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,21 +14,29 @@ import { AuthService } from '../auth.service';
 })
 export class NavbarComponent implements OnChanges {
 
-  constructor(private router: Router, private convService: ConversationService, public auth: AuthService) {
+  constructor(private userService: UserService, private router: Router, private convService: ConversationService, public auth: AuthService) {
     this.convService.convID.subscribe(id => {
       console.log('VIEWING - ',id)
       this.viewing = id;
     });
+    this.userService.user.subscribe(usr => {
+      console.log('got user - ',usr)
+      this.user = usr;
+    });
+    this.userService.users.subscribe(usrs => {
+      console.log('got user - ',usrs)
+      this.users = usrs;
+    });
   }
 
-  @Input() user: IUser;
-  @Input() users: IUser[];
   @Input() pms: IConversation[];
   @Input() generalChats: IConversation[];
   @Output() joinConversation = new EventEmitter<IConversation>();
   newConversation: NgModel;
   addingConversation = false;
   viewing: string;
+  user: IUser;
+  users: IUser[];
 
   switchPMChat(other_user: IUser): void {
     let privateConversationID: string;
@@ -71,6 +80,11 @@ export class NavbarComponent implements OnChanges {
     this.router.navigate(['chat'], { queryParams: { id: conv.id}});
   }
 
+  getStyle(number){
+    return`#${400000 + (number * 0o46000)}`;
+    // return`#${800000 + (number * 0o40000)}`;
+
+  }
 
   createUserConversation(userID: any, convID: any): Observable<IUserConversation> {
     return this.convService.createUserConversation(userID, convID).pipe(
@@ -100,7 +114,6 @@ export class NavbarComponent implements OnChanges {
   }
 
   isChatJoined(chat: IConversation): boolean {
-    console.log('gen chat: ',chat)
     let output = false;
     const result = this.user.userConversation.forEach(user_conv => {
       if( chat.id === user_conv.convID) {

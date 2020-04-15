@@ -1,10 +1,10 @@
-<div class="navbar">
+<div *ngIf="user?.userConversation" class="navbar">
   <div class="vertical-align">
-    <div class="nav-header">People</div>
+    <div class="general-header">People</div>
   </div>
-  <div *ngIf="users.length" class="conversations pm-conversations">
+  <div *ngIf="users.length && user" class="conversations pm-conversations">
     <div *ngFor="let usr of users">
-      <div (click) = "switchPMChat(usr)" class="user-nav-btn" [class.viewing]="usr.firstName===viewing" *ngIf="usr?.id != user?.id" id="usr?.id">
+      <div (click) = "switchPMChat(usr)" class="user-nav-btn" [class.viewing]="usr.firstName===viewing" [ngStyle]="{'background-color':getStyle(users.indexOf(usr))}" *ngIf="usr?.id != user?.id" id="usr?.id">
         <div class="nav-btn vertical-align">
           {{usr?.firstName}}
         </div>
@@ -14,31 +14,23 @@
       </div>
     </div>
   </div>
-  <div class="nav-header">
+  <div class="general-header">
     Conversations
       <div class="btn button--grey" (click)="createClicked()">
         +
       </div>
     </div>
-  <div *ngIf="generalChats.length" class="conversations general-conversations">
+  <div *ngIf="generalChats.length && user" class="conversations general-conversations">
     <div *ngFor="let chat of generalChats">
-      <div (click) = "switchGeneralChat(chat)" class="user-nav-btn" [class.viewing]="chat.id===viewing" [id]="chat.id">
+      <div (click) = "switchGeneralChat(chat)" class="user-nav-btn" [ngStyle]="{'background-color':getStyle(generalChats.indexOf(chat))}" [class.viewing]="chat.id===viewing" [id]="chat.id">
         <div class="nav-btn vertical-align">
           {{chat.topic}}
         </div>
         <div class="nav-btn vertical-align">
-          <span class="btn btn-default" *ngIf="!isChatJoined(chat)">Join</span>
+          <span class="join" *ngIf="!isChatJoined(chat)">Join</span>
         </div>
       </div>
     </div>
-    <!-- <div class="user-nav-btn" *ngIf="addingConversation">
-      <div class="nav-btn vertical-align">
-        <input type="text" [(ngModel)]="newConversation" (keydown)="returnListener($event)" class="form-control" placeholder="title" />
-      </div>
-      <div class="nav-btn vertical-align">
-        <span class="btn btn--no-border button--orange" (click)="addGeneralConversation()">Create!</span>
-      </div>
-    </div> -->
   </div>
   <div class="user-nav-btn" *ngIf="addingConversation">
     <div class="nav-btn vertical-align">

@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ConversationService, IConversation, IMessage, IUser } from '../shared/index';
 import {environment} from '../../environments/environment';
 import { NgForm, NgModel } from '@angular/forms';
+import { UserService } from '../shared/user.service';
+import { HubConnection } from '@aspnet/signalr';
+import { HubService } from '../shared/hub.service';
 
 @Component({
   selector: 'app-chatpanel',
@@ -11,12 +14,12 @@ import { NgForm, NgModel } from '@angular/forms';
 })
 export class ChatpanelComponent implements OnInit, OnChanges {
 
-  constructor(private route: ActivatedRoute, private convService: ConversationService) {
-    this.convService.user.subscribe(usr => {
+  constructor(private hubService: HubService, private route: ActivatedRoute, private convService: ConversationService, private userService: UserService) {
+    this.userService.user.subscribe(usr => {
       console.log('got user - ',usr)
       this.user = usr;
     });
-    this.convService.users.subscribe(usrs => {
+    this.userService.users.subscribe(usrs => {
       this.users = usrs;
     });
   }
@@ -26,6 +29,7 @@ export class ChatpanelComponent implements OnInit, OnChanges {
   messages: IMessage[];
   user: any;
   users: any;
+  public hubConnection: HubConnection;
 
   getUser(msg: IMessage): IUser {
     return this.users.filter(user => user.id === msg.authorID)[0];
@@ -38,6 +42,9 @@ export class ChatpanelComponent implements OnInit, OnChanges {
         AuthorID: this.user.id
       };
     this.convService.saveMessage(body_obj).subscribe(resp => {
+      console.log('posted - ',resp)
+      this.echo();
+      this.hubConnection.invoke("Send",body_obj);
       this.init();
       inputPanel.reset();
     });
@@ -78,7 +85,23 @@ export class ChatpanelComponent implements OnInit, OnChanges {
     this.init();
   }
   ngOnInit() {
+    this.hubConnection = this.hubService.createHubConnection("https://localhost:5001/api/message");
+    this.hubConnection.on("Send", (conv) => {
+      this.conversation = conv;
+    })
+    this.hubConnection.start().then(()=>{console.log('connection started')}).catch(err => {console.error('start connection error: ',err)});
     this.init();
+    console.log('our hub connection: ',this.hubConnection);
+
+  }
+
+  joinChat(){
+    // this.hubConnection.hub.chatDBHub;
+    // this.hubConnection.invoke("JoinRoom", this.convID);
+  }
+
+  echo(){
+    this.hubConnection.invoke("Send", this.conversation);
   }
 
 

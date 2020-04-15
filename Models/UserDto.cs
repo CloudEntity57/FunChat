@@ -14,5 +14,7 @@ namespace iCloset.Models
         public string Email { get; set; }
         public ICollection<UserConversation> UserConversation { get; set; }
         public ICollection<Conversation> PMConversations { get; set; }
+
+        public string UserID { get; set; }
     }
 }

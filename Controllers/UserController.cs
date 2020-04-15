@@ -24,7 +24,8 @@ namespace iCloset.Controllers
                 FirstName = p.FirstName,
                 LastName = p.LastName,
                 Email = p.Email,
-                UserConversation = p.UserConversation
+                UserConversation = p.UserConversation,
+                UserID = p.UserID
             });
 
         }
@@ -71,6 +72,23 @@ namespace iCloset.Controllers
 #else
             return BadRequest("Error encountered while trying to request data");
 #endif
+            }
+
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Create([FromBody]User user)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            try{
+                var result = _repository.CreateUser(user);
+                return Ok(result);
+            }catch(Exception e){
+                return BadRequest(e.Message);
             }
 
         }

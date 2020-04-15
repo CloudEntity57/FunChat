@@ -13,10 +13,21 @@
     }
   }
 }
+.avatar{
+  //display: inline-block;
+  height: 100%;
+}
+.avatar-holder{
+  border-radius: 45px;
+  margin:20px;
+  overflow:hidden;
+}
 .title{
   font-size: 3em;
 }
-
+.menu{
+  display:flex;
+}
 
 @media (max-width: 767px) {
   /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */

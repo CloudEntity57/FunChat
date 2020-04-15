@@ -5,14 +5,17 @@
     height:auto;
   }
 }
+
 .user-nav-btn{
   height:50px;
   border-bottom:1px solid #000;
   cursor:pointer;
-  padding:0px 5px;
+  padding:10px;
+  color: white;
   transition: padding-left, .15s;
   &:hover{
-    padding-left:10px;
+    padding-left:15px;
+    opacity: .8;
   }
   display: flex;
   justify-content: space-between;
@@ -24,12 +27,7 @@
   background-color:$lighterblue;
   color:#fff;
 }
-.nav-header{
-  font-size:1.5em;
-  margin:15px 0px;
-  display: flex;
-  justify-content: space-between;
-}
+
 .conversations{
   margin-bottom:65px;
   @media(max-width:995px){
@@ -41,5 +39,6 @@
   overflow-y: scroll;
   margin-bottom:0px;
 }
+
 
 

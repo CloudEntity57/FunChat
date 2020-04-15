@@ -16,6 +16,8 @@ import { InterceptorService } from './interceptor.service';
 import { AuthService } from './auth.service';
 import { ProfileComponent } from './profile/profile.component';
 import { ConversationComponent } from './conversation/conversation.component';
+import { UserService } from './shared/user.service';
+import { HubService } from './shared/hub.service';
 
 
 @NgModule({
@@ -38,11 +40,13 @@ import { ConversationComponent } from './conversation/conversation.component';
   providers: [
     AuthService,
     ConversationService,
+    UserService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
-    }
+    },
+    HubService
   ],
   bootstrap: [ AppComponent ]
 })

@@ -7,9 +7,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { ConversationComponent } from './conversation/conversation.component';
 
 export const appRoutes: Routes = [
-  // { path: '', redirectTo: '/home', pathMatch: 'full' },
+  // { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'chat', component: ConversationComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginComponent },
+  { path: 'log_in', component: LoginComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }
 ];
