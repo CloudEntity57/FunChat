@@ -19,6 +19,8 @@
 }
 .avatar-holder{
   border-radius: 45px;
+  width:45px;
+  height:45px;
   margin:20px;
   overflow:hidden;
 }
@@ -27,6 +29,7 @@
 }
 .menu{
   display:flex;
+  justify-content:space-between;
 }
 
 @media (max-width: 767px) {
