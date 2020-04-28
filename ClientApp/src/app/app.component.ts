@@ -4,6 +4,7 @@ import { IUser, IConversation, ConversationService } from './shared';
 import { environment } from '../environments/environment';
 import { AuthService } from './auth.service';
 import { UserService } from './shared/user.service';
+import { HubService } from './shared/hub.service';
 
 @Component({
   selector: 'app-root',

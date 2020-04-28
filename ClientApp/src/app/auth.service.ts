@@ -32,7 +32,7 @@ export class AuthService {
       console.log('isAuthenticated$: ',res)
       this.loggedIn = res
     })
-  );
+  )
 
   // public purgeCookies(){
   //   document.cookie.split('; ').forEach(cookie => {
@@ -166,7 +166,7 @@ export class AuthService {
   }
   getTokenSilently$(options?): Observable<string> {
     return this.auth0Client$.pipe(
-      concatMap((client: Auth0Client) => from(client.getTokenSilently(options)))
+      concatMap((client: Auth0Client) => from(client.getTokenSilently(options))),
     );
   }
 

@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { IConversation, IMessage, IUserConversation, IUser } from '../shared/index';
+import { HubConnection } from '@aspnet/signalr';
+import { HubService } from './hub.service';
 
 @Injectable()
 export class ConversationService {
@@ -12,8 +14,11 @@ export class ConversationService {
   user: Subject<IUser> = new Subject<IUser>();
   users: Subject<IUser[]> = new Subject<IUser[]>();
 
+
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl;
+
+
   }
 
   convIDChange(id:string){
@@ -82,6 +87,7 @@ export class ConversationService {
       map(resp => true)
     );
   }
+
 
 
   // getMessages(): Observable<IMessage[]>{

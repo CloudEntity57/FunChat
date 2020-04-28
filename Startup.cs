@@ -40,6 +40,23 @@ namespace iCloset {
             {
                 options.Authority = domain;
                 options.Audience = Configuration["Auth0:ApiIdentifier"];
+                options.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context =>
+                {
+                    var accessToken = context.Request.Query["access_token"];
+
+                    // If the request is for our hub...
+                    var path = context.HttpContext.Request.Path;
+                    if (!string.IsNullOrEmpty(accessToken) &&
+                        (path.StartsWithSegments("/api/message")))
+                    {
+                        // Read the token out of the query string
+                        context.Token = accessToken;
+                    }
+                    return Task.CompletedTask;
+                }
+            };
             });
             services.AddAuthorization(options =>
             {
@@ -99,7 +116,8 @@ namespace iCloset {
                 .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
             });
             app.UseAuthentication();
-
+           // SignalR
+            app.UseSignalR(s => s.MapHub<ChatDBHub>("/api/message"));
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",
@@ -117,8 +135,6 @@ namespace iCloset {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-            // SignalR
-            app.UseSignalR(s => s.MapHub<ChatDBHub>("/api/message"));
             app.UseFileServer();
         }
 

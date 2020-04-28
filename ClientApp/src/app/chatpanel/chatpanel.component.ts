@@ -43,8 +43,8 @@ export class ChatpanelComponent implements OnInit, OnChanges {
       };
     this.convService.saveMessage(body_obj).subscribe(resp => {
       console.log('posted - ',resp)
-      this.echo();
-      this.hubConnection.invoke("Send",body_obj);
+      this.echoMessage(body_obj.Body, this.convID);
+      //this.hubConnection.invoke("Send",body_obj);
       this.init();
       inputPanel.reset();
     });
@@ -80,14 +80,23 @@ export class ChatpanelComponent implements OnInit, OnChanges {
     });
   }
 
+  joinChat(){
+    // this.hubConnection.hub.chatDBHub;
+    this.hubConnection.invoke("JoinRoom", this.convID);
+  }
+
+  echoMessage(message: string, groupID: string){
+    this.hubConnection.invoke("SendMessageToRoom", message, groupID);
+  }
 
   ngOnChanges() {
     this.init();
   }
+
   ngOnInit() {
     this.hubConnection = this.hubService.createHubConnection("https://localhost:5001/api/message");
-    this.hubConnection.on("Send", (conv) => {
-      this.conversation = conv;
+    this.hubConnection.on("SendMessageToRoom", (msg) => {
+      this.conversation.message.push(msg);
     })
     this.hubConnection.start().then(()=>{console.log('connection started')}).catch(err => {console.error('start connection error: ',err)});
     this.init();
@@ -95,14 +104,6 @@ export class ChatpanelComponent implements OnInit, OnChanges {
 
   }
 
-  joinChat(){
-    // this.hubConnection.hub.chatDBHub;
-    // this.hubConnection.invoke("JoinRoom", this.convID);
-  }
-
-  echo(){
-    this.hubConnection.invoke("Send", this.conversation);
-  }
 
 
 }
