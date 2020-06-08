@@ -9,10 +9,12 @@
           <div *ngIf="!auth.loggedIn" (click)="logIn()" class="button button--grey">Sign In</div>
           <div *ngIf="auth.loggedIn" (click)="logOut()" class="button button--grey">Sign Out</div>
         </div>
-        <div *ngIf="auth.userProfile$ | async as user" class="avatar-holder">
-          <a routerLink="profile">
-            <img class="avatar img-responsive" [src]="user.picture" alt=""><img>
-          </a>
+        <div class=vertical-align>
+          <div *ngIf="auth.userProfile$ | async as user" class="avatar-holder">
+            <a routerLink="profile">
+              <img class="avatar img-responsive" [src]="user.picture" alt=""><img>
+            </a>
+          </div>
         </div>
       </div>
 
